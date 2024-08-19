@@ -8,7 +8,6 @@ export default function getType(key: string, value: any) {
     if (regex.uuid.test(value)) return "string";
     if (regex.date.test(value)) return "Date";
     if (regex.float.test(value)) return "number";
-    if (!isNaN(Number(value))) return "number";
     return "string";
   }
   if (value === null && (key.endsWith("_at") || key.endsWith("At"))) {
