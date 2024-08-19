@@ -1,4 +1,4 @@
-import { Flex, Text } from "@mantine/core";
+import { Anchor, Flex, Text } from "@mantine/core";
 import Container from "../components/container";
 import React from "react";
 import { RouteEnum } from "../constants/route-enum";
@@ -147,6 +147,20 @@ export default function Homepage() {
       },
     ];
   }, []);
+
+  const externalLinks = React.useMemo(() => {
+    return [
+      {
+        href: "https://github.com/ferdylimmm9/bump-manipulator-native-springkraf",
+        label: "Springkraf Expo Bump Manipulator",
+      },
+      {
+        href: "https://github.com/ferdylimmm9/springkraf-laravel-documentaion-cupu-generator",
+        label: "Springkraf Laravel Documentaion Cupu Generator",
+      },
+    ];
+  }, []);
+
   const mainContent = (
     <Flex w="100%" direction="column">
       {menus.map((menu) => {
@@ -160,6 +174,13 @@ export default function Homepage() {
           >
             <Text color="blue">{menu.label}</Text>
           </Link>
+        );
+      })}
+      {externalLinks.map((link) => {
+        return (
+          <Anchor href={link.href} key={link.href} target="_blank">
+            {link.label}
+          </Anchor>
         );
       })}
     </Flex>
