@@ -1,4 +1,4 @@
-# TypeScript Model Generator
+# Springkraf Typescript Model Generator
 This script generates TypeScript models from JSON data, converting all properties to camelCase and adding appropriate type annotations and decorators. The model classes are named in PascalCase, and nested objects or arrays of objects generate additional model classes.
 
 
