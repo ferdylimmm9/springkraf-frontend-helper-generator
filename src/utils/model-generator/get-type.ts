@@ -1,4 +1,4 @@
-import regex from "./regex";
+import regex from "../regex";
 
 export default function getType(key: string, value: any) {
   if (typeof value === "boolean") return "boolean";

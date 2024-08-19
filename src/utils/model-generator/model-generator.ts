@@ -1,5 +1,5 @@
 import getType from "./get-type";
-import Strings from "./strings";
+import Strings from "../strings";
 
 export default function modelGenerator(obj: any, className: string): string {
   let code = `export class ${className} {\n`;

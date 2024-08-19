@@ -1,81 +1,137 @@
-# Springkraf Typescript Model Generator
-This script generates TypeScript models from JSON data, converting all properties to camelCase and adding appropriate type annotations and decorators. The model classes are named in PascalCase, and nested objects or arrays of objects generate additional model classes.
+# React Springkraf Helper Generator
 
+## Overview
 
-## Usage Guide for `modelGenerator` Function
+The **React Springkraf Helper Generator** is a web tool designed to assist frontend engineers at Springkraf by automating the generation of frontend models and enums. This tool helps streamline the development process, ensuring that the frontend components are consistently structured and formatted according to project conventions.
 
-The `modelGenerator` function is designed to automatically generate TypeScript class models from JSON input. This function, along with its helper methods, transforms the JSON structure into a format compatible with class-transformer decorators. Below is an overview of how the function processes the input and what kind of output you can expect.
+### Features
 
-#### **Input Structure**
-The function accepts two parameters:
-- **`obj` (Object)**: This is the JSON object that needs to be converted into a TypeScript class model. The structure can include primitive types, nested objects, and arrays.
-- **`className` (string)**: The name of the class to be generated. This should be in PascalCase.
+- **Model Generation**: Automatically generates TypeScript models from JSON responses. It handles complex JSON structures, converting them into well-typed TypeScript classes with the appropriate decorators.
+- **Enum Consolidation**: Gathers all enums from the API, converts them to PascalCase, and consolidates them into a single TypeScript file.
+- **PascalCase Conversion**: Ensures that all model and enum names, as well as keys, follow the PascalCase convention for consistency.
 
-#### **Data Type Handling**
-The `modelGenerator` function automatically determines the TypeScript data type for each property based on its value:
-1. **Boolean**: If the value is a boolean, the type is `boolean`.
-2. **Number**: If the value is a number or a string that can be parsed into a number, the type is `number`.
-3. **String**: If the value is a string, the type is `string`.
-4. **Date**: If the key ends with `_at` or `At` and the value is a string that represents a date, the type is `Date`.
-5. **Null**: If the value is null and the key ends with `_at` or `At`, the type is `Date | null`. Otherwise, it is `string | null`.
-6. **Array**: If the value is an array, the function checks the first element's type to generate the appropriate array type. If the array contains objects, a sub-model is generated.
-7. **Object**: If the value is an object, a nested class model is generated for it.
+### Model Generator
 
-#### **Key Formatting**
-- **Snake Case to Camel Case**: All keys in the JSON input that are in snake_case will be converted to camelCase in the generated TypeScript model.
-- **Pascal Case Class Names**: The class names and sub-model names generated are in PascalCase.
+The model generator takes a JSON response and transforms it into a TypeScript model class. Key features include:
 
-#### **Decorators Used**
-- **`@Expose`**: Applied to properties whose JSON keys are in snake_case, indicating the original key name.
-- **`@Type`**: Applied to properties that need to be transformed into a specific type (e.g., Date, nested object models, etc.).
+- **Snake_case to camelCase**: Automatically converts JSON keys from snake_case to camelCase.
+- **Type Detection**: Determines the correct TypeScript type based on the JSON value, with special handling for dates, arrays, and nested objects.
+- **Recursive Type Handling**: Handles nested objects and arrays, generating the appropriate TypeScript types for each level.
+- **@Type Decorators**: Adds the correct `@Type` decorator to ensure proper type transformation when using libraries like `class-transformer`.
 
-#### **Example Input**
-```json
-{
-  "id": "123",
-  "created_at": "2024-01-01T00:00:00Z",
-  "details": {
-    "item_count": 10,
-    "items": [
-      {
-        "id": "item1",
-        "price": "100.50"
-      }
-    ]
-  }
-}
-```
+### Enum Generator
 
-#### **Example Output**
+The enum generator fetches all enums from a specified API endpoint and consolidates them into a single TypeScript file. It converts both the enum names and their keys to PascalCase, ensuring that they align with the project's naming conventions.
+
+### Getting Started
+
+#### Prerequisites
+
+- **Node.js**: Ensure you have Node.js installed to run the scripts.
+- **Basic Knowledge**: A basic understanding of TypeScript and JavaScript.
+
+#### Installation
+
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/yourusername/springkraf-helper-generator.git
+   ```
+   
+2. **Install Dependencies**:
+   Navigate to the project directory and install the necessary dependencies:
+   ```bash
+   npm install
+   ```
+
+#### Running the Model Generator
+
+1. **Prepare the JSON Response**:
+   - Ensure you have the JSON response that you want to convert into a TypeScript model.
+
+2. **Run the Script**:
+   - Place your JSON data into the `json` variable within the script.
+   - Execute the script:
+     ```bash
+     node model-generator.js
+     ```
+   - The TypeScript model will be generated and saved to a file.
+
+3. **Customization**:
+   - You can adjust the PascalCase and type detection logic by modifying the corresponding functions in the script.
+
+### Running the Enum Generator
+
+1. **Fetch Enum Data**:
+   - Use the provided API endpoint to fetch the list of enums.
+
+2. **Generate Enums**:
+   - Run the script to fetch, process, and save the enums:
+     ```bash
+     node enum-generator.js
+     ```
+   - The consolidated TypeScript enums will be saved to a file.
+
+### Example Output
+
+#### Model Output
+
 ```typescript
-import { Expose, Type } from 'class-transformer';
-
-export class DetailItemsModel {
+export class OtherProductModel {
+  @Expose({ name: 'id' })
+  @Type(() => String)
   id: string;
 
+  @Expose({ name: 'code' })
+  @Type(() => String)
+  code: string;
+
+  @Expose({ name: 'name' })
+  @Type(() => String)
+  name: string;
+
+  @Expose({ name: 'price' })
   @Type(() => Number)
   price: number;
+
+  @Expose({ name: 'updatedAt' })
+  @Type(() => Date)
+  updatedAt: Date;
+
+  @Expose({ name: 'detail' })
+  @Type(() => DetailModel)
+  detail: DetailModel;
 }
 
 export class DetailModel {
-  @Expose({ name: 'item_count' })
-  @Type(() => Number)
-  itemCount: number;
-
-  @Type(() => DetailItemsModel)
-  items: DetailItemsModel[];
-}
-
-export class ExampleModel {
+  @Expose({ name: 'id' })
+  @Type(() => String)
   id: string;
 
-  @Expose({ name: 'created_at' })
-  @Type(() => Date)
-  createdAt: Date;
+  @Expose({ name: 'index' })
+  @Type(() => Number)
+  index: number;
 
-  @Type(() => DetailModel)
-  details: DetailModel;
+  @Expose({ name: 'filePath' })
+  @Type(() => String)
+  filePath: string;
 }
 ```
 
-This output illustrates how the `modelGenerator` function converts a JSON structure into a corresponding TypeScript class model, handling various data types, nested objects, and arrays while applying the necessary decorators.
+#### Enum Output
+
+```typescript
+export enum BannerTypeEnum {
+  Homepage = 'homepage', // Homepage
+  Reseller = 'reseller', // Reseller
+  HomepageSliderFooter = 'homepagesliderfooter', // Homepage slider footer
+  HomepageFooter = 'homepagefooter', // Homepage footer
+}
+```
+
+### Contributing
+
+We welcome contributions! If you have ideas for improvements or new features, feel free to submit a pull request or open an issue.
+
+### License
+
+This project is licensed under the MIT License.

@@ -1,11 +1,10 @@
 import { Button, Flex, JsonInput, Textarea, TextInput } from "@mantine/core";
 import { useClipboard } from "@mantine/hooks";
 import React from "react";
-import modelGenerator from "../utils/model-generator";
+import modelGenerator from "../utils/model-generator/model-generator";
 import Container from "../components/container";
 
 const innerHTML = `
-<h1 id="typescript-model-generator">Springkraf Typescript Model Generator</h1>
 <p>This web generates TypeScript models from JSON data, converting all properties to camelCase and adding appropriate type annotations and decorators. The model classes are named in PascalCase, and nested objects or arrays of objects generate additional model classes.</p>
 <h2 id="usage-guide-for-modelgenerator-function">Usage Guide for <code>modelGenerator</code> Function</h2>
 <p>The <code>modelGenerator</code> function is designed to automatically generate TypeScript class models from JSON input. This function, along with its helper methods, transforms the JSON structure into a format compatible with class-transformer decorators. Below is an overview of how the function processes the input and what kind of output you can expect.</p>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import Strings from "./strings";
+import Strings from "../strings";
 
 // Main function to fetch and process enums
 export default async function enumGenerator(endpoint: string) {

@@ -1,11 +1,10 @@
 import React from "react";
-import enumGenerator from "../utils/enum-generator";
+import enumGenerator from "../utils/enum-generator/enum-generator";
 import { Button, Flex, Textarea, TextInput } from "@mantine/core";
 import Container from "../components/container";
 import { useClipboard } from "@mantine/hooks";
 
 const innerHTML = `
-<h1 id="enum-gatherer-script-for-web">Enum Gatherer Script for Web</h1>
 <p>This project contains a web-based script that gathers all enums from a specified API and consolidates them into a single TypeScript file. The enum names and keys are automatically converted to PascalCase for consistency and readability.</p>
 <h2 id="features">Features</h2>
 <ul>
