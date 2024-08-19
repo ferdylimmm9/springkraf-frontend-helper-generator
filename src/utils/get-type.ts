@@ -5,6 +5,7 @@ export default function getType(key: string, value: any) {
   if (typeof value === "number") return "number";
   if (typeof value === "string") {
     if (key.endsWith("_at") || key.endsWith("At")) return "Date";
+    if (regex.uuid.test(value)) return "string";
     if (regex.date.test(value)) return "Date";
     if (regex.float.test(value)) return "number";
     if (!isNaN(Number(value))) return "number";
