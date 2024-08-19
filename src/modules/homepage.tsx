@@ -5,7 +5,7 @@ import { RouteEnum } from "../constants/route-enum";
 import { Link } from "react-router-dom";
 
 const innerHTML = `
-<p>The <strong>React Springkraf Helper Generator</strong> is a web tool designed to assist frontend engineers at Springkraf by automating the generation of frontend models and enums. This tool helps streamline the development process, ensuring that the frontend components are consistently structured and formatted according to project conventions.</p>
+<p>The <strong>Springkraf Frontend Helper Generator</strong> is a web tool designed to assist frontend engineers at Springkraf by automating the generation of frontend models and enums. This tool helps streamline the development process, ensuring that the frontend components are consistently structured and formatted according to project conventions.</p>
 <h3 id="features">Features</h3>
 <ul>
 <li><strong>Model Generation</strong>: Automatically generates TypeScript models from JSON responses. It handles complex JSON structures, converting them into well-typed TypeScript classes with the appropriate decorators.</li>

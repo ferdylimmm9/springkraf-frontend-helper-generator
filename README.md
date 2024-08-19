@@ -1,8 +1,8 @@
-# React Springkraf Helper Generator
+# Springkraf Frontend Helper Generator
 
 ## Overview
 
-The **React Springkraf Helper Generator** is a web tool designed to assist frontend engineers at Springkraf by automating the generation of frontend models and enums. This tool helps streamline the development process, ensuring that the frontend components are consistently structured and formatted according to project conventions.
+The **Springkraf Frontend Helper Generator** is a web tool designed to assist frontend engineers at Springkraf by automating the generation of frontend models and enums. This tool helps streamline the development process, ensuring that the frontend components are consistently structured and formatted according to project conventions.
 
 ### Features
 
