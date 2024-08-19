@@ -1,19 +1,10 @@
-import {
-  Anchor,
-  Button,
-  Container,
-  CopyButton,
-  Flex,
-  JsonInput,
-  Text,
-  Textarea,
-  TextInput,
-  Title,
-} from "@mantine/core";
+import { Button, Flex, JsonInput, Textarea, TextInput } from "@mantine/core";
+import { useClipboard } from "@mantine/hooks";
 import React from "react";
-import modelGenerator from "../../utils/model-generator";
+import modelGenerator from "../utils/model-generator";
+import Container from "../components/container";
 
-const informationHtml = `
+const innerHTML = `
 <h1 id="typescript-model-generator">Springkraf Typescript Model Generator</h1>
 <p>This web generates TypeScript models from JSON data, converting all properties to camelCase and adding appropriate type annotations and decorators. The model classes are named in PascalCase, and nested objects or arrays of objects generate additional model classes.</p>
 <h2 id="usage-guide-for-modelgenerator-function">Usage Guide for <code>modelGenerator</code> Function</h2>
@@ -87,115 +78,82 @@ const informationHtml = `
 <p>This output illustrates how the <code>modelGenerator</code> function converts a JSON structure into a corresponding TypeScript class model, handling various data types, nested objects, and arrays while applying the necessary decorators.</p>
 `;
 
-export default function Homepage() {
+export default function ModelGenerator() {
   const [classname, setClassName] = React.useState("ExampleModel");
   const [json, setJson] = React.useState<string | undefined>("");
   const [result, setResult] = React.useState<string | undefined>(undefined);
-
+  const { copy, copied } = useClipboard();
   const onSubmit = React.useCallback(() => {
     try {
       const result = modelGenerator(
-        JSON.parse(json || '{}'),
+        JSON.parse(json || "{}"),
         classname || "ExampleModel"
       );
       setResult(result);
+      copy(result);
     } catch (e) {
       console.error(e);
     }
-  }, [classname, json]);
+  }, [classname, copy, json]);
 
-  return (
-    <Container fluid p={16}>
-      <Flex
-        pos="sticky"
-        top={0}
-        left={0}
-        right={0}
-        bg="white"
-        direction="column"
-        style={{
-          zIndex: 3,
-        }}
-        py={16}
-      >
-        <Title ta="center">Springkraf Typescript Model Generator</Title>
-        <Flex align="flex-end" gap={16}>
-          <TextInput
-            w="100%"
-            value={classname}
-            label="Classname"
-            placeholder="Input your classname"
-            onChange={(e) => {
-              const value = e.target.value;
-              setClassName(value || "");
-            }}
-          />
-          <Flex align="center" gap={16}>
-            <Button onClick={onSubmit}>Generate</Button>
-            <CopyButton value={result || ""}>
-              {({ copied, copy }) => {
-                return (
-                  <>
-                    <Button
-                      variant={copied ? "filled" : "outline"}
-                      color={copied ? "teal" : undefined}
-                      onClick={copy}
-                    >
-                      {copied ? "Copied Model" : "Copy Model"}
-                    </Button>
-                  </>
-                );
-              }}
-            </CopyButton>
-          </Flex>
-        </Flex>
-      </Flex>
-      <Flex
-        justify="space-between"
-        my={32}
-        gap={24}
-        direction={{
-          base: "column",
-          md: "row",
-        }}
-      >
-        <Flex flex={1}>
-          <JsonInput
-            w="100%"
-            h="100%"
-            autosize
-            label="Input"
-            placeholder="Insert your response result"
-            value={json}
-            onChange={setJson}
-            validationError="Invalid JSON"
-          />
-        </Flex>
-        <Flex flex={1}>
-          <Textarea
-            autosize
-            w="100%"
-            h="100%"
-            value={result}
-            label="Result"
-            placeholder="Insert your response first to acquire model"
-          />
-        </Flex>
-      </Flex>
-      <div
-        dangerouslySetInnerHTML={{
-          __html: informationHtml,
+  const topAction = (
+    <Flex align="flex-end" gap={16}>
+      <TextInput
+        w="90%"
+        value={classname}
+        label="Classname"
+        placeholder="Input your classname"
+        onChange={(e) => {
+          const value = e.target.value;
+          setClassName(value || "");
         }}
       />
-      <Text ta="center">
-        Copyright &copy; {new Date().getFullYear()}&nbsp;-&nbsp;
-        <Anchor
-          href="https://github.com/ferdylimmm9/springkraf-typescript-model-generator"
-          target="_blank"
-        >
-          ferdylimmm9/springkraf-typescript-model-generator
-        </Anchor>
-      </Text>
-    </Container>
+      <Button onClick={onSubmit} color={copied ? "teal" : undefined}>
+        {copied ? "Copied" : "Generate"}
+      </Button>
+    </Flex>
+  );
+
+  const mainContent = (
+    <Flex
+      justify="space-between"
+      gap={24}
+      direction={{
+        base: "column",
+        md: "row",
+      }}
+    >
+      <Flex flex={1}>
+        <JsonInput
+          w="100%"
+          h="100%"
+          autosize
+          label="Input"
+          placeholder="Insert your response result"
+          value={json}
+          onChange={setJson}
+          validationError="Invalid JSON"
+        />
+      </Flex>
+      <Flex flex={1}>
+        <Textarea
+          autosize
+          w="100%"
+          h="100%"
+          value={result}
+          label="Result"
+          placeholder="Insert your response first to acquire model"
+        />
+      </Flex>
+    </Flex>
+  );
+
+  return (
+    <Container
+      mainContent={mainContent}
+      innerHTML={innerHTML}
+      title="Springkraf Model Generator"
+      topAction={topAction}
+    />
   );
 }
