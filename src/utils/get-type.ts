@@ -1,8 +1,12 @@
+import regex from "./regex";
+
 export default function getType(key: string, value: any) {
   if (typeof value === "boolean") return "boolean";
   if (typeof value === "number") return "number";
   if (typeof value === "string") {
     if (key.endsWith("_at") || key.endsWith("At")) return "Date";
+    if (regex.date.test(value)) return "Date";
+    if (regex.float.test(value)) return "number";
     if (!isNaN(Number(value))) return "number";
     return "string";
   }
@@ -11,6 +15,6 @@ export default function getType(key: string, value: any) {
   }
   if (Array.isArray(value)) return "Array";
   if (typeof value === "object" && value !== null) return "Object";
-  if(value === null) return "string | null"
+  if (value === null) return "string | null";
   return "any";
 }

@@ -52,6 +52,9 @@ export default function modelGenerator(obj: any, className: string): string {
       if (type === "Date" || type === "Date | null") {
         code += `  @Type(() => Date)\n`;
       }
+      if (type === "number") {
+        code += `  @Type(() => Number)\n`;
+      }
       code += `  ${Strings.pascalToCamelCase(pascalKey)}: ${type};\n\n`;
     }
   }
