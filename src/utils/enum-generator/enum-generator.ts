@@ -17,8 +17,6 @@ export default async function enumGenerator(endpoint: string) {
       })
     );
 
-    console.log(datas)
-
     // Iterate over each enum name
     for (const { enumName, enumData } of datas) {
       // Start constructing the enum
@@ -35,6 +33,15 @@ export default async function enumGenerator(endpoint: string) {
 
       output += "}\n\n";
     }
+
+    const enumTypes = datas.reduce((prev, data) => {
+      const key = data.enumName;
+      prev[key] = key;
+      return prev;
+    }, {} as { [x: string]: string });
+
+    output += `export const EnumClass = ${JSON.stringify(enumTypes, null, 2)} as const;\n\n`;
+    output += `export type EnumClassType = (typeof EnumClass)[keyof typeof EnumClass];\n\n`;
 
     // Write to file
     return output.trim();
